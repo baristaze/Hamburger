@@ -106,6 +106,29 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         })
     }
     
+    func getMentionsSince(sinceId:Int64?, callback:([Tweet]? -> Void)) {
+
+        var urlString = "1.1/statuses/mentions_timeline.json"
+        if(sinceId != nil){
+            urlString += "?since_id=" + sinceId!.description
+        }
+        self.GET(
+            urlString,
+            parameters: nil,
+            success: { (operation:AFHTTPRequestOperation!, response:AnyObject!) -> Void in
+                println("mentions retrieved successfully");
+                //println(response.description)
+                let tweets = Tweet.fromArray(response as! NSArray)
+                //println(tweets.count.description)
+                callback(tweets)
+            },
+            failure: { (operation:AFHTTPRequestOperation!, error:NSError!) -> Void in
+                callback(nil)
+                println("mentions timeline failed: %@", error)
+        })
+
+    }
+    
     func tweet(text:String, callback:((Tweet?)->Void)) {
         
         let textEscaped = text.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())

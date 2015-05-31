@@ -1,29 +1,24 @@
 //
-//  TimelineViewController.swift
+//  MentionsViewController.swift
 //  Mwitter
 //
-//  Created by Baris Taze on 5/22/15.
+//  Created by Baris Taze on 5/31/15.
 //  Copyright (c) 2015 Baris Taze. All rights reserved.
 //
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewTweetDelegate, TweetUpdateDelegate {
+class MentionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewTweetDelegate, TweetUpdateDelegate {
 
-    @IBOutlet private weak var menuButton: UIBarButtonItem!
-    
     @IBOutlet private weak var tableView: UITableView!
     private var refreshControl:UIRefreshControl!
-    private var infiniteLoadingStarted = false
     
     private var tweets = [Tweet]()
-    
     private var tweetToReply:Tweet?
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
+
         self.tableView.estimatedRowHeight = 120
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -32,22 +27,12 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.insertSubview(self.refreshControl, atIndex: 0)
         
-        self.loadMoreTweets(false, endInfiniteLoad:false)
+        self.loadMoreTweets(false)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    @IBAction func onHamburgerMenu(sender: AnyObject) {
-        //let vc = self.storyboard!.instantiateViewControllerWithIdentifier("main.vc") as! MainViewController
-        //self.presentViewController(vc, animated: true, completion: nil)
-    }
-    
-    @IBAction func onLogout(sender: AnyObject) {
-        TwitterClient.sharedInstance.logout()
-        (UIApplication.sharedApplication().delegate as! AppDelegate).startLoginStoryBoard()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,8 +49,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func onNewTweet(tweet:Tweet) {
-        self.tweets.insert(tweet, atIndex: 0)
-        self.tableView.reloadData()
+        // not for this view
     }
     
     func onFavorited(tweet:Tweet, responseTweet:Tweet, sender:TweetCell?) {
@@ -77,19 +61,19 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func onRefresh() {
-        self.loadMoreTweets(true, endInfiniteLoad: false);
+        self.loadMoreTweets(true);
     }
     
     func onReplyRequest(tweet:Tweet) {
         self.tweetToReply = tweet
-        self.performSegueWithIdentifier("tweet.compose.reply", sender: self)
+        self.performSegueWithIdentifier("mention.compose.reply", sender: self)
     }
     
-    func loadMoreTweets(endRefreshing:Bool, endInfiniteLoad:Bool){
+    func loadMoreTweets(endRefreshing:Bool){
         
-        let showSpinner = !endRefreshing && !endInfiniteLoad
+        let showSpinner = !endRefreshing
         var sinceId:Int64? = self.tweets.count > 0 ? self.tweets[0].id : nil
-        TwitterClient.sharedInstance.getHomeTimelineSince(sinceId) { (tweets:[Tweet]?) -> Void in
+        TwitterClient.sharedInstance.getMentionsSince(sinceId) { (tweets:[Tweet]?) -> Void in
             if(tweets != nil){
                 if(endRefreshing){
                     var index = 0
@@ -108,10 +92,6 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             
             if(endRefreshing){
                 self.refreshControl.endRefreshing()
-            }
-            
-            if(endInfiniteLoad){
-                self.infiniteLoadingStarted = false;
             }
         }
     }
@@ -144,4 +124,3 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
 }
-
