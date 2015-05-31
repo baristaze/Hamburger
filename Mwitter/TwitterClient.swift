@@ -76,7 +76,8 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     func getCurrentAccount(callback:((Account?)->Void)){
         
         self.GET("1.1/account/verify_credentials.json", parameters: nil, success: { (operation:AFHTTPRequestOperation!, response:AnyObject!) -> Void in
-            println("account retrieved successfully");
+            println("account retrieved successfully")
+            println(response)
             let a = Account().initWithDictionary(response as! NSDictionary)
             callback(a);
             
@@ -117,14 +118,31 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
             parameters: nil,
             success: { (operation:AFHTTPRequestOperation!, response:AnyObject!) -> Void in
                 println("mentions retrieved successfully");
-                //println(response.description)
                 let tweets = Tweet.fromArray(response as! NSArray)
-                //println(tweets.count.description)
                 callback(tweets)
             },
             failure: { (operation:AFHTTPRequestOperation!, error:NSError!) -> Void in
                 callback(nil)
                 println("mentions timeline failed: %@", error)
+        })
+    }
+    
+    func getUserTimeLine(sinceId:Int64?, callback:([Tweet]? -> Void)) {
+        var urlString = "1.1/statuses/user_timeline.json"
+        if(sinceId != nil){
+            urlString += "?since_id=" + sinceId!.description
+        }
+        self.GET(
+            urlString,
+            parameters: nil,
+            success: { (operation:AFHTTPRequestOperation!, response:AnyObject!) -> Void in
+                println("user timeline retrieved successfully");
+                let tweets = Tweet.fromArray(response as! NSArray)
+                callback(tweets)
+            },
+            failure: { (operation:AFHTTPRequestOperation!, error:NSError!) -> Void in
+                callback(nil)
+                println("user timeline failed: %@", error)
         })
 
     }

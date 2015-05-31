@@ -16,7 +16,11 @@ class Account {
     var screenName:String = ""
     var tagLine:String = ""
     var profileImageUrl:String = ""
+    var profileBackgroundImageUrl:String?
     var location:String = ""
+    var tweetCount:NSNumber = 0
+    var followerCount:NSNumber = 0
+    var followingCount:NSNumber = 0
     
     private var originalDictionary:NSDictionary?
     
@@ -26,7 +30,11 @@ class Account {
         self.screenName = dict["screen_name"] as! String
         self.tagLine = dict["description"] as! String
         self.profileImageUrl = dict["profile_image_url"] as! String
+        self.profileBackgroundImageUrl = dict["profile_banner_url"] as! String?
         self.location = dict["location"] as! String
+        self.tweetCount = dict["statuses_count"] as! NSNumber
+        self.followerCount = dict["followers_count"] as! NSNumber
+        self.followingCount = dict["friends_count"] as! NSNumber
         
         self.originalDictionary = dict
         

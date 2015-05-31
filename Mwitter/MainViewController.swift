@@ -22,6 +22,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var menuExpanded:Bool = true
     private var animating:Bool = false
     
+    // TODO - I had to use SplitViewController instead of having a custom one.
     var activeViewController: UIViewController? {
         didSet(oldViewControllerOrNil){
             if let oldVC = oldViewControllerOrNil {
@@ -129,18 +130,14 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             switch(indexPath.row){
             case 0:
                 activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("timelineVC") as! TimelineViewController
-                self.navigationItem.rightBarButtonItem = self.tweetBarButtonItem
+                //self.navigationItem.rightBarButtonItem = self.tweetBarButtonItem
                 //self.navigationController?.navigationBar.reloadInputViews()
 
             case 1:
                 activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("mentions.vc") as! MentionsViewController
-                self.navigationItem.rightBarButtonItem = nil
-                //self.navigationController?.navigationBar.reloadInputViews()
                 
             case 2:
-                activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("timelineVC") as! TimelineViewController
-                self.navigationItem.rightBarButtonItem = nil
-                //self.navigationController?.navigationBar.reloadInputViews()
+                activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("profile.vc") as! ProfileViewController
                 
             case 3:
                 self.activeViewController = nil
@@ -149,8 +146,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 
             default:
                 self.activeViewController = nil
-                self.navigationItem.rightBarButtonItem = nil
-                //self.navigationController?.navigationBar.reloadInputViews()
             }
             
             if(activeVC != nil){
