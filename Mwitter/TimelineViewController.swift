@@ -131,14 +131,6 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         
         var nav = segue.destinationViewController as? UINavigationController
         if(nav == nil){
-            let tapRec = (sender as! UITapGestureRecognizer)
-            let tapLocation = tapRec.locationInView(self.tableView)
-            let indexPath = self.tableView.indexPathForRowAtPoint(tapLocation)
-            let cell = self.tableView.cellForRowAtIndexPath(indexPath!)
-            let tweet = (cell as! TweetCell).currentTweet
-            //let vc = self.storyboard!.instantiateViewControllerWithIdentifier("profile.vc") as! ProfileViewController
-            let vc = segue.destinationViewController as! ProfileViewController
-            vc.account = tweet!.user
         }
         else if(nav!.topViewController is TweetViewController){
             var vc = nav!.topViewController as! TweetViewController
@@ -154,6 +146,15 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             let tweet = self.tweets[indexPath!.row]
             vc.tweet = tweet
             vc.delegate = self;
+        }
+        else if(nav!.topViewController is ProfileViewController) {
+            var vc = nav!.topViewController as! ProfileViewController
+            let tapRec = (sender as! UITapGestureRecognizer)
+            let tapLocation = tapRec.locationInView(self.tableView)
+            let indexPath = self.tableView.indexPathForRowAtPoint(tapLocation)
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath!)
+            let tweet = (cell as! TweetCell).currentTweet
+            vc.account = tweet!.user
         }
         else {
         }

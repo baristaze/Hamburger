@@ -142,6 +142,13 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return 4;
     }
 
+    @IBAction func onSwipeLeft(sender: AnyObject) {
+        
+        if(self.menuExpanded) {
+            toggleMenuView(){}
+        }
+    }
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         toggleMenuView(){

@@ -36,9 +36,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         self.profileImage.setImageWithURL(NSURL(string: self.account!.profileImageUrl))
         
-        self.numbersSegment.setTitle("TWEETS: " + self.account!.tweetCount.description, forSegmentAtIndex: 0)
-        self.numbersSegment.setTitle("FOLLOWING: " + self.account!.followingCount.description, forSegmentAtIndex: 1)
-        self.numbersSegment.setTitle("FOLLOWER: " + self.account!.followerCount.description, forSegmentAtIndex: 2)
+        self.numbersSegment.setTitle("Tweets: " + self.account!.tweetCount.description, forSegmentAtIndex: 0)
+        self.numbersSegment.setTitle("Following: " + self.account!.followingCount.description, forSegmentAtIndex: 1)
+        self.numbersSegment.setTitle("Follower: " + self.account!.followerCount.description, forSegmentAtIndex: 2)
 
         self.tableView.estimatedRowHeight = 120
         self.tableView.rowHeight = UITableViewAutomaticDimension

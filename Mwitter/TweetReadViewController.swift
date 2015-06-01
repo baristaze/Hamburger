@@ -126,9 +126,21 @@ class TweetReadViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
+    @IBAction func onProfileImage(sender: AnyObject) {
+        self.performSegueWithIdentifier("profile.vc.from.read", sender: sender)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         var nav = segue.destinationViewController as! UINavigationController
-        var vc = nav.topViewController as! TweetViewController
-        vc.tweetToReply = self.tweet!
+        
+        if(nav.topViewController is TweetViewController){
+            var vc = nav.topViewController as! TweetViewController
+            vc.tweetToReply = self.tweet!
+        }
+        else{
+            var vc = nav.topViewController as! ProfileViewController
+            vc.account = self.tweet!.user
+        }
     }
 }
