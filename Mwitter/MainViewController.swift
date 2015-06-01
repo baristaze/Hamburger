@@ -22,7 +22,6 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private var menuExpanded:Bool = true
     private var animating:Bool = false
     
-    // TODO - I had to use SplitViewController instead of having a custom one.
     var activeViewController: UIViewController? {
         didSet(oldViewControllerOrNil){
             if let oldVC = oldViewControllerOrNil {
@@ -45,15 +44,17 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.menuTable.tableFooterView = UIView(frame:CGRectZero)
     }
     
-    /*
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        toggleMenuView(){
-            self.activeViewController = self.storyboard!.instantiateViewControllerWithIdentifier("timelineVC") as! TimelineViewController
+        if(self.menuExpanded){
+            toggleMenuView(){
+                var activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("timelineVC") as! TimelineViewController
+                self.activeViewController = activeVC
+                self.navigationItem.title = "Timeline";
+            }
         }
     }
-    */
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -63,6 +64,25 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBAction func onHamburgerMenu(sender: AnyObject) {
         
         toggleMenuView(){}
+    }
+    
+    @IBAction func onTweet(sender: AnyObject) {
+        
+        var action:((Void)->Void) = {
+            if self.activeViewController is TimelineViewController {
+                var vc = self.activeViewController as! TimelineViewController
+                vc.openNewTweetVC()
+            }
+        }
+        
+        if self.menuExpanded {
+            toggleMenuView() {
+                action()
+            }
+        }
+        else {
+            action()
+        }
     }
     
     func toggleMenuView(onComplete:((Void)->Void)){
@@ -97,7 +117,7 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         var label = ""
         switch(indexPath.row){
-            case 0: label = "Home"
+            case 0: label = "Timeline"
             case 1: label = "Mentions"
             case 2: label = "Profile"
             case 3: label = "Logout"
@@ -127,17 +147,22 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
         toggleMenuView(){
             
             var activeVC:UIViewController?
+            var title:String = "Home"
+            
             switch(indexPath.row){
             case 0:
                 activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("timelineVC") as! TimelineViewController
+                title = "Timeline"
                 //self.navigationItem.rightBarButtonItem = self.tweetBarButtonItem
                 //self.navigationController?.navigationBar.reloadInputViews()
 
             case 1:
                 activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("mentions.vc") as! MentionsViewController
+                title = "Mentions"
                 
             case 2:
                 activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("profile.vc") as! ProfileViewController
+                title = "Profile"
                 
             case 3:
                 self.activeViewController = nil
@@ -150,18 +175,14 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             if(activeVC != nil){
                 self.activeViewController = activeVC
+                self.navigationItem.title = title;
+                if(title == "Timeline") {
+                    self.navigationItem.rightBarButtonItem?.title = "Tweet";
+                }
+                else {
+                    self.navigationItem.rightBarButtonItem?.title = "";
+                }
             }
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

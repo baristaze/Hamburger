@@ -40,16 +40,6 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func onHamburgerMenu(sender: AnyObject) {
-        //let vc = self.storyboard!.instantiateViewControllerWithIdentifier("main.vc") as! MainViewController
-        //self.presentViewController(vc, animated: true, completion: nil)
-    }
-    
-    @IBAction func onLogout(sender: AnyObject) {
-        TwitterClient.sharedInstance.logout()
-        (UIApplication.sharedApplication().delegate as! AppDelegate).startLoginStoryBoard()
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tweets.count
     }
@@ -61,6 +51,11 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         cell.delegate = self
         
         return cell
+    }
+    
+    func openNewTweetVC(){
+        self.tweetToReply = nil
+        self.performSegueWithIdentifier("new.tweet.segue", sender: self)
     }
     
     func onNewTweet(tweet:Tweet) {

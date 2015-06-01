@@ -164,11 +164,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Timeline" id="vnu-Oh-Mua">
-                        <barButtonItem key="leftBarButtonItem" title="☰" id="Ci2-3I-JPY">
-                            <connections>
-                                <action selector="onHamburgerMenu:" destination="lIi-z6-fja" id="AVc-pl-dDJ"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="leftBarButtonItem" title="☰" id="Ci2-3I-JPY"/>
                         <barButtonItem key="rightBarButtonItem" title="Tweet" id="BQL-Ad-fVW">
                             <connections>
                                 <segue destination="nCd-J5-Rnh" kind="presentation" identifier="tweet.compose.reply" id="gum-l3-Mvs"/>
@@ -177,6 +173,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="spN-Ft-yUl" id="g8c-Zb-NNG"/>
+                        <segue destination="nCd-J5-Rnh" kind="presentation" identifier="new.tweet.segue" id="hZz-p3-ubI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BoB-vp-kFp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -452,7 +449,11 @@
                                 <action selector="onHamburgerMenu:" destination="LoK-Te-tkI" id="Ebs-Ih-tst"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="XqV-qk-mVg"/>
+                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="XqV-qk-mVg">
+                            <connections>
+                                <action selector="onTweet:" destination="LoK-Te-tkI" id="HF4-tz-8LD"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="contentView" destination="pUx-C7-HFj" id="7Rs-Bd-1G3"/>
@@ -492,7 +493,7 @@
                                     <constraint firstAttribute="height" constant="120" id="uuL-CM-hoR"/>
                                 </constraints>
                             </imageView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NCf-Zj-Y6c">
+                            <segmentedControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="NCf-Zj-Y6c">
                                 <rect key="frame" x="8" y="248" width="584" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="HdP-gX-Qln"/>
@@ -852,7 +853,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Af-HG-fKb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1587" y="283"/>
+            <point key="canvasLocation" x="1737" y="283"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DUl-IP-k1Y">
@@ -897,7 +898,7 @@
         <image name="retweet_default" width="19" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pHD-lC-5tW"/>
-        <segue reference="Mbf-Nq-AcG"/>
+        <segue reference="hZz-p3-ubI"/>
+        <segue reference="zZQ-jB-ZLz"/>
     </inferredMetricsTieBreakers>
 </document>
