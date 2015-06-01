@@ -431,6 +431,7 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="dqL-K5-7kW" appends="YES" id="Lw1-Oq-rsb"/>
+                                    <outletCollection property="gestureRecognizers" destination="K88-vk-jec" appends="YES" id="Arg-MH-o1H"/>
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wdf-We-MoU" userLabel="menuView">
@@ -501,6 +502,11 @@
                 <swipeGestureRecognizer direction="left" id="Jnr-Yj-NVR">
                     <connections>
                         <action selector="onSwipeLeft:" destination="LoK-Te-tkI" id="svD-8t-QkD"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="right" id="K88-vk-jec">
+                    <connections>
+                        <action selector="onSwipeRight:" destination="LoK-Te-tkI" id="TO9-KT-ZRw"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
