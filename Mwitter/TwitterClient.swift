@@ -127,11 +127,17 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         })
     }
     
-    func getUserTimeLine(sinceId:Int64?, callback:([Tweet]? -> Void)) {
+    func getUserTimeLine(sinceId:Int64?, userScreenName:String?, callback:([Tweet]? -> Void)) {
         var urlString = "1.1/statuses/user_timeline.json"
+        var delim = "?"
         if(sinceId != nil){
             urlString += "?since_id=" + sinceId!.description
+            delim = "&"
         }
+        if(userScreenName != nil){
+            urlString += delim + "screen_name=" + userScreenName!
+        }
+        
         self.GET(
             urlString,
             parameters: nil,

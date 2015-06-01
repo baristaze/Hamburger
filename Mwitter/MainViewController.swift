@@ -157,7 +157,9 @@ class MainViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 //self.navigationController?.navigationBar.reloadInputViews()
 
             case 1:
-                activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("mentions.vc") as! MentionsViewController
+                //activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("mentions.vc") as! MentionsViewController
+                activeVC = self.storyboard!.instantiateViewControllerWithIdentifier("timelineVC") as! TimelineViewController
+                (activeVC as! TimelineViewController).isMentionLine = true
                 title = "Mentions"
                 
             case 2:

@@ -40,7 +40,7 @@ class TweetCell: UITableViewCell {
     private var replyTapRecognizer1:UITapGestureRecognizer?
     private var replyTapRecognizer2:UITapGestureRecognizer?
     
-    private var currentTweet:Tweet?
+    var currentTweet:Tweet?
     
     var delegate:TweetUpdateDelegate?
     

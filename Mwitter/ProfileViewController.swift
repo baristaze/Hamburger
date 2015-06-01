@@ -20,20 +20,25 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     private var tweets = [Tweet]()
     private var tweetToReply:Tweet?
     
+    var userScreenName:String?
+    var account:Account?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var me = Account.currentUser()!
-        
-        if(me.profileBackgroundImageUrl != nil){
-            self.backgroundImage.setImageWithURL(NSURL(string: me.profileBackgroundImageUrl!))
+        if(self.account == nil){
+            self.account = Account.currentUser()
         }
         
-        self.profileImage.setImageWithURL(NSURL(string: me.profileImageUrl))
+        if(self.account!.profileBackgroundImageUrl != nil){
+            self.backgroundImage.setImageWithURL(NSURL(string: self.account!.profileBackgroundImageUrl!))
+        }
         
-        self.numbersSegment.setTitle("TWEETS: " + me.tweetCount.description, forSegmentAtIndex: 0)
-        self.numbersSegment.setTitle("FOLLOWING: " + me.followingCount.description, forSegmentAtIndex: 1)
-        self.numbersSegment.setTitle("FOLLOWER: " + me.followerCount.description, forSegmentAtIndex: 2)
+        self.profileImage.setImageWithURL(NSURL(string: self.account!.profileImageUrl))
+        
+        self.numbersSegment.setTitle("TWEETS: " + self.account!.tweetCount.description, forSegmentAtIndex: 0)
+        self.numbersSegment.setTitle("FOLLOWING: " + self.account!.followingCount.description, forSegmentAtIndex: 1)
+        self.numbersSegment.setTitle("FOLLOWER: " + self.account!.followerCount.description, forSegmentAtIndex: 2)
 
         self.tableView.estimatedRowHeight = 120
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -89,7 +94,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let showSpinner = !endRefreshing
         var sinceId:Int64? = self.tweets.count > 0 ? self.tweets[0].id : nil
-        TwitterClient.sharedInstance.getUserTimeLine(sinceId) { (tweets:[Tweet]?) -> Void in
+        TwitterClient.sharedInstance.getUserTimeLine(sinceId, userScreenName:self.account!.screenName) { (tweets:[Tweet]?) -> Void in
             if(tweets != nil){
                 if(endRefreshing){
                     var index = 0

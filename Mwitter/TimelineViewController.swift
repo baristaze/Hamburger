@@ -10,15 +10,15 @@ import UIKit
 
 class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewTweetDelegate, TweetUpdateDelegate {
 
-    @IBOutlet private weak var menuButton: UIBarButtonItem!
-    
     @IBOutlet private weak var tableView: UITableView!
+    
     private var refreshControl:UIRefreshControl!
     private var infiniteLoadingStarted = false
     
     private var tweets = [Tweet]()
-    
     private var tweetToReply:Tweet?
+    
+    var isMentionLine:Bool = false
     
     override func viewDidLoad() {
         
@@ -35,6 +35,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.loadMoreTweets(false, endInfiniteLoad:false)
     }
 
+    @IBAction func onProfileImage(sender: AnyObject) {
+        self.performSegueWithIdentifier("profile.vc.segue", sender: sender)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -84,7 +88,8 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         
         let showSpinner = !endRefreshing && !endInfiniteLoad
         var sinceId:Int64? = self.tweets.count > 0 ? self.tweets[0].id : nil
-        TwitterClient.sharedInstance.getHomeTimelineSince(sinceId) { (tweets:[Tweet]?) -> Void in
+        
+        var callback = { (tweets:[Tweet]?) -> Void in
             if(tweets != nil){
                 if(endRefreshing){
                     var index = 0
@@ -109,6 +114,13 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.infiniteLoadingStarted = false;
             }
         }
+        
+        if(self.isMentionLine) {
+            TwitterClient.sharedInstance.getMentionsSince(sinceId, callback:callback);
+        }
+        else {
+            TwitterClient.sharedInstance.getHomeTimelineSince(sinceId, callback:callback);
+        }
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -119,6 +131,14 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         
         var nav = segue.destinationViewController as? UINavigationController
         if(nav == nil){
+            let tapRec = (sender as! UITapGestureRecognizer)
+            let tapLocation = tapRec.locationInView(self.tableView)
+            let indexPath = self.tableView.indexPathForRowAtPoint(tapLocation)
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath!)
+            let tweet = (cell as! TweetCell).currentTweet
+            //let vc = self.storyboard!.instantiateViewControllerWithIdentifier("profile.vc") as! ProfileViewController
+            let vc = segue.destinationViewController as! ProfileViewController
+            vc.account = tweet!.user
         }
         else if(nav!.topViewController is TweetViewController){
             var vc = nav!.topViewController as! TweetViewController

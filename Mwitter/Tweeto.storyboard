@@ -27,12 +27,16 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oP2-bB-y0G" id="ovB-ya-zPA">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mrj-ab-5yb">
+                                                <imageView multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mrj-ab-5yb">
                                                     <rect key="frame" x="8" y="8" width="70" height="70"/>
+                                                    <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="Qug-MN-TVu"/>
                                                         <constraint firstAttribute="width" constant="70" id="Vy6-AN-d0C"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <outletCollection property="gestureRecognizers" destination="hgS-AX-yob" appends="YES" id="zBj-2v-Muk"/>
+                                                    </connections>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Baris Taze" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GYY-Q2-c5j">
                                                     <rect key="frame" x="86" y="8" width="76.5" height="19.5"/>
@@ -174,11 +178,17 @@
                     <connections>
                         <outlet property="tableView" destination="spN-Ft-yUl" id="g8c-Zb-NNG"/>
                         <segue destination="nCd-J5-Rnh" kind="presentation" identifier="new.tweet.segue" id="hZz-p3-ubI"/>
+                        <segue destination="k9a-6t-p4R" kind="presentation" identifier="profile.vc.segue" id="P8u-N3-Euy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BoB-vp-kFp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="hgS-AX-yob">
+                    <connections>
+                        <action selector="onProfileImage:" destination="lIi-z6-fja" id="oJF-Oi-O0I"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="905" y="283"/>
+            <point key="canvasLocation" x="975" y="283"/>
         </scene>
         <!--Tweet Read View Controller-->
         <scene sceneID="vO4-L0-jGc">
@@ -324,11 +334,12 @@
                         <outlet property="screenNameLabel" destination="5tk-To-00W" id="Slb-V9-cUn"/>
                         <outlet property="tweetLabel" destination="iFW-4D-RaF" id="VdF-sj-hmL"/>
                         <segue destination="nCd-J5-Rnh" kind="presentation" identifier="tweet.reply.segue" id="vAW-au-mVM"/>
+                        <segue destination="k9a-6t-p4R" kind="presentation" identifier="profile.vc.from.read" id="hBE-zw-7gY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJb-cL-OwI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1777" y="1083"/>
+            <point key="canvasLocation" x="1709" y="1059"/>
         </scene>
         <!--Compose-->
         <scene sceneID="hBE-Bv-rDb">
@@ -853,7 +864,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Af-HG-fKb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1737" y="283"/>
+            <point key="canvasLocation" x="1709" y="283"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DUl-IP-k1Y">
@@ -898,7 +909,8 @@
         <image name="retweet_default" width="19" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hZz-p3-ubI"/>
-        <segue reference="zZQ-jB-ZLz"/>
+        <segue reference="pHD-lC-5tW"/>
+        <segue reference="P8u-N3-Euy"/>
+        <segue reference="Mbf-Nq-AcG"/>
     </inferredMetricsTieBreakers>
 </document>
